@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.*;
+// javax → jakarta 패키지 변경
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -19,10 +20,10 @@ import lombok.Data;
 public class PaintingProcessEquipmentDefectDetectionLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long machineId;
+    private String machineId;
 
     private Date timeStamp;
 
@@ -30,7 +31,7 @@ public class PaintingProcessEquipmentDefectDetectionLog {
 
     private Float voltage;
 
-    private Float ampere;
+    private Float current;
 
     private Float temper;
 
@@ -41,14 +42,14 @@ public class PaintingProcessEquipmentDefectDetectionLog {
     @PostPersist
     public void onPostPersist() {
         PaintingProcessEquipmentDefectSaved paintingProcessEquipmentDefectSaved = new PaintingProcessEquipmentDefectSaved(
-            this
+                this
         );
         paintingProcessEquipmentDefectSaved.publishAfterCommit();
     }
 
     public static PaintingProcessEquipmentDefectDetectionLogRepository repository() {
         PaintingProcessEquipmentDefectDetectionLogRepository paintingProcessEquipmentDefectDetectionLogRepository = PaintingprocessmonitoringApplication.applicationContext.getBean(
-            PaintingProcessEquipmentDefectDetectionLogRepository.class
+                PaintingProcessEquipmentDefectDetectionLogRepository.class
         );
         return paintingProcessEquipmentDefectDetectionLogRepository;
     }
@@ -57,27 +58,27 @@ public class PaintingProcessEquipmentDefectDetectionLog {
     public static void equipmentIssueSolvedPolicy(IssueSolved issueSolved) {
         //implement business logic here:
 
-        /** Example 1:  new item 
-        PaintingProcessEquipmentDefectDetectionLog paintingProcessEquipmentDefectDetectionLog = new PaintingProcessEquipmentDefectDetectionLog();
-        repository().save(paintingProcessEquipmentDefectDetectionLog);
+        /** Example 1:  new item
+         PaintingProcessEquipmentDefectDetectionLog paintingProcessEquipmentDefectDetectionLog = new PaintingProcessEquipmentDefectDetectionLog();
+         repository().save(paintingProcessEquipmentDefectDetectionLog);
 
-        EquipmentIssueSolved equipmentIssueSolved = new EquipmentIssueSolved(paintingProcessEquipmentDefectDetectionLog);
-        equipmentIssueSolved.publishAfterCommit();
-        */
+         EquipmentIssueSolved equipmentIssueSolved = new EquipmentIssueSolved(paintingProcessEquipmentDefectDetectionLog);
+         equipmentIssueSolved.publishAfterCommit();
+         */
 
         /** Example 2:  finding and process
-        
 
-        repository().findById(issueSolved.get???()).ifPresent(paintingProcessEquipmentDefectDetectionLog->{
-            
-            paintingProcessEquipmentDefectDetectionLog // do something
-            repository().save(paintingProcessEquipmentDefectDetectionLog);
 
-            EquipmentIssueSolved equipmentIssueSolved = new EquipmentIssueSolved(paintingProcessEquipmentDefectDetectionLog);
-            equipmentIssueSolved.publishAfterCommit();
+         repository().findById(issueSolved.get???()).ifPresent(paintingProcessEquipmentDefectDetectionLog->{
+
+         paintingProcessEquipmentDefectDetectionLog // do something
+         repository().save(paintingProcessEquipmentDefectDetectionLog);
+
+         EquipmentIssueSolved equipmentIssueSolved = new EquipmentIssueSolved(paintingProcessEquipmentDefectDetectionLog);
+         equipmentIssueSolved.publishAfterCommit();
 
          });
-        */
+         */
 
     }
     //>>> Clean Arch / Port Method
